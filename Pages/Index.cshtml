@@ -1,0 +1,110 @@
+﻿@page
+@model IndexModel
+@{
+  ViewData["Title"] = "Home page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"]</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 2rem;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #fff;
+    }
+
+    #messagesList {
+      margin-top: 20px;
+      list-style-type: none;
+      padding: 0;
+      height: 900px;
+      overflow-y: scroll;
+      background-color: #000033;
+    }
+
+    #messagesList li {
+      background-color: #800080;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 25px;
+      word-wrap: break-word;
+    }
+
+    .dark-background {
+      background-color: #505050 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <button id="clearButton">Clear Messages</button>
+    <ul id="messagesList"></ul>
+  </div>
+
+  <script type="text/javascript">
+    let lastMessage = '';
+
+    document.getElementById("clearButton").addEventListener("click", function () {
+      document.getElementById("messagesList").innerHTML = '';
+    });
+
+    async function fetchInitialMessage() {
+      try {
+        const response = await fetch('/lastline');
+        if (response.ok) {
+          const message = await response.text();
+          if (message) {
+            lastMessage = message;
+          }
+        }
+      } catch (error) {
+        console.error('Fetch error: ', error);
+      }
+    }
+
+    async function fetchLatestMessage() {
+      try {
+        const response = await fetch('/lastline');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const message = await response.text();
+        if (message && message !== lastMessage) {
+          const li = document.createElement("li");
+          if (message.startsWith('> ')) {
+            li.classList.add('dark-background');
+          }
+          li.textContent = message;
+          document.getElementById("messagesList").appendChild(li);
+          // Scroll to the bottom
+          messagesList.scrollTop = messagesList.scrollHeight;
+          // Keep this so we don't repeat messages
+          lastMessage = message;
+        }
+      } catch (error) {
+        console.error('Fetch error: ', error);
+      }
+    }
+
+    window.onload = async function () {
+      await fetchInitialMessage();
+      setInterval(fetchLatestMessage, 1000); // Poll every second
+    };
+  </script>
+</body>
+
+</html>
