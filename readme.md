@@ -27,9 +27,10 @@ Temporary solution to supply ATC log entries in real time as they are written to
 
 ## Usage
 
-See filter.txt for filtered out entries.
-Use ATCLogWatcher.exe to run the app.
-Requires .NET 7.0 runtime, which you probably already have.
+See `filter.txt` for filtered out entries or just use the Clear button in the toolbar. Update filters as needed over time.
+Create a `logfile_location.txt` file to point to a new logfile location, but a default one is assumed under your userprofile.
+Use the ATCLogWatcher/AtcLogWatcher.exe to run the watcher app. Close/re-open toolbar in the sim to refresh.
+Requires [.NET 7.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), which you probably already have, but if anything doesn't work then that's probably it.
 
 ## Installation
 
