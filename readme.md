@@ -33,7 +33,9 @@ Requires .NET 7.0 runtime, which you probably already have.
 
 ## Installation
 
+Latest release is available in the [Releases](https://github.com/fearlessfrog/AtcLogWatcher/releases/).
 Place the extracted release zip contents into your MSFS Community folder location. If you're not sure what or where that is then this might not be the temporary solution for you.
+To uninstall everything, just remove the folder from the Community folder.
 
 ## License
 
