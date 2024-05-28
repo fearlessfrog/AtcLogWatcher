@@ -13,7 +13,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<FileWatcherService>(provider =>
 {
   var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-  var filePath = Path.Combine(userProfilePath, "AppData", "LocalLow", "Skirmish Mode Games, Inc", "BeyondATC", "Player.log");
+  var defaultFilePath = Path.Combine(userProfilePath, "AppData", "LocalLow", "Skirmish Mode Games, Inc", "BeyondATC", "Player.log");
+  var logFileLocationPath = Path.Combine(userProfilePath, "logfile_location.txt");
+  var filePath = File.Exists(logFileLocationPath) ? File.ReadAllText(logFileLocationPath) : defaultFilePath;
   var lastLineFilePath = Path.Combine(Path.GetTempPath(), "lastline.txt");
   return new FileWatcherService(filePath, lastLineFilePath, true);
 });
