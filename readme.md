@@ -25,6 +25,32 @@ Temporary solution to supply ATC log entries in real time as they are written to
 └──────────────────┘                └──────────────────────┘
 ```
 
+## FAQ
+
+Q - What is this for?
+
+A - The original need is that [Beyond ATC](https://www.beyondatc.net/) (BATC) doesn't show an in-sim toolbar making it hard to use in VR. [Pilot2ATC](https://pilot2atc.com/) had a 'conversation log' that could be used to get around this, so it's sort of the same idea. It shows the ATC conversation in native MSFS UI, so you can see it in VR.
+
+Q - So this is a hack?
+
+A - Yes, very much so. The [most voted feature](https://beyondatc.nolt.io/12) to be added to the early access version of BATC is the in-game toolbar. So not only is this a hack, but it's *temporary* until that comes along. This is not endorsed, approved, acknowledged by Beyond ATC's Skirmish Mode Games in any way. BATC will probably change their log files over time and this might break. A log file is not a publicly supported interface. If this breaks and it is still useful then I might fix it up, or just check out if you can do so yourself in the supplied filters.txt. 
+
+Q - Should I use this?
+
+A - Probably not. Here's other ways to do this:
+
+a. Check out VSR for VATSIM that now includes an early BATC message log support. VSR is great if you want to use VATSIM and BATC, or want to eventually do that. It combines the two, useful when real life controllers aren't around. Check it out here - [VSR for VATSIM](https://vsr.readthedocs.io/en/latest/). The latest and greatest releases will be available at the Discord here - https://discord.com/invite/MJ6fBfYfNR and if you ping @fearlessfrog on that then you stand a 50/50 chance of a reply. Not terrible odds.
+
+b. Show the BATC window in VR. A free way to do this is [OpenKneeboard](https://openkneeboard.com/). This relays the 2D window into a VR tablet view. There is no input, and positioning it can be tricky but it works well. There are other paid apps like [FSDesktop](https://fsdesktop.com/) etc that offer similar things. Plus of course your native VR ability to view desktops/windows in VR.
+
+Q - So I shouldn't use this, huh?
+
+A - It's super simple and if you don't want to use the above then you're welcome to this. It was the fruits of about 4 hours effort on a Sunday morning when because it was raining I convinced myself that I shouldn't go for a run.
+
+Q - I have a support issue!
+
+A - Don't we all.
+
 ## Usage
 
 See `filter.txt` for filtered out entries or just use the Clear button in the toolbar. Update filters as needed over time.
