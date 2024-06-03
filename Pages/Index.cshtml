@@ -52,6 +52,8 @@
 <body>
   <div>
     <button id="clearButton">Clear Messages</button>
+    <button id="fontPlusButton">Font +</button>
+    <button id="fontMinusButton">Font -</button>
     <ul id="messagesList"></ul>
   </div>
 
@@ -60,6 +62,21 @@
 
     document.getElementById("clearButton").addEventListener("click", function () {
       document.getElementById("messagesList").innerHTML = '';
+    });
+
+    document.getElementById("fontPlusButton").addEventListener("click", function () {
+      var body = document.body;
+      var currentFontSize = parseFloat(window.getComputedStyle(body).getPropertyValue('font-size'));
+      var newFontSize = currentFontSize / 16 + 0.5;
+      body.style.fontSize = newFontSize + "rem";
+    });
+
+    document.getElementById("fontMinusButton").addEventListener("click", function () {
+      var body = document.body;
+      var currentFontSize = parseFloat(window.getComputedStyle(body).getPropertyValue('font-size'));
+      var newFontSize = currentFontSize / 16 - 0.5;
+      if (newFontSize < 1) newFontSize = 1; // Prevent the font size from becoming negative
+      body.style.fontSize = newFontSize + "rem";
     });
 
     async function fetchInitialMessage() {
