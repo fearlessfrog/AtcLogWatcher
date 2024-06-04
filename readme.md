@@ -39,7 +39,7 @@ Q - Should I use this?
 
 A - Probably not. Here's other ways to do this:
 
-a. Check out VSR for VATSIM that now includes an early BATC message log support. VSR is great if you want to use VATSIM and BATC, or want to eventually do that. It combines the two, useful when real life controllers aren't around. Check it out here - [VSR for VATSIM](https://vsr.readthedocs.io/en/latest/). The latest and greatest releases will be available at the Discord here - https://discord.com/invite/MJ6fBfYfNR and if you ping @fearlessfrog on that then you stand a 50/50 chance of a reply. Not terrible odds.
+a. Check out VSR for VATSIM that now includes an early BATC message log support. VSR is great if you want to use VATSIM and BATC, or want to eventually do that. It combines the two, useful when real life controllers aren't around. Check it out here - [VSR for VATSIM](https://vsr.readthedocs.io/en/latest/).
 
 b. Show the BATC window in VR. A free way to do this is [OpenKneeboard](https://openkneeboard.com/). This relays the 2D window into a VR tablet view. There is no input, and positioning it can be tricky but it works well. There are other paid apps like [FSDesktop](https://fsdesktop.com/) etc that offer similar things. Plus of course your native VR ability to view desktops/windows in VR.
 
