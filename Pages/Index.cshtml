@@ -19,6 +19,7 @@
       color: #fff;
       margin: 0;
       padding: 20px;
+      overflow-x: hidden;
     }
 
     h1 {
@@ -29,13 +30,13 @@
       margin-top: 20px;
       list-style-type: none;
       padding: 0;
-      height: 900px;
+      height: 85vh;
       overflow-y: scroll;
       background-color: #000033;
     }
 
     #messagesList li {
-      background-color: #800080;
+      background-color: #420042;
       color: #fff;
       padding: 10px 20px;
       margin: 10px 0;
@@ -47,6 +48,7 @@
       background-color: #505050 !important;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
 </head>
 
 <body>
@@ -58,7 +60,31 @@
   </div>
 
   <script type="text/javascript">
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("/hub")
+      .build();
+
     let lastMessage = '';
+
+    connection.on("ReceiveUpdate", function (update) {
+      const message = update;
+      if (message && message !== lastMessage) {
+        const li = document.createElement("li");
+        if (message.startsWith('> ')) {
+          li.classList.add('dark-background');
+        }
+        li.textContent = message;
+        document.getElementById("messagesList").appendChild(li);
+        // Scroll to the bottom
+        messagesList.scrollTop = messagesList.scrollHeight;
+        // Keep this so we don't repeat messages
+        lastMessage = message;
+      }
+    });
+
+    connection.start().catch(function (err) {
+      return console.error(err.toString());
+    });
 
     document.getElementById("clearButton").addEventListener("click", function () {
       document.getElementById("messagesList").innerHTML = '';
@@ -119,7 +145,7 @@
 
     window.onload = async function () {
       await fetchInitialMessage();
-      setInterval(fetchLatestMessage, 1000); // Poll every second
+      //setInterval(fetchLatestMessage, 1000); // Deprecated: Poll every second
     };
   </script>
 </body>

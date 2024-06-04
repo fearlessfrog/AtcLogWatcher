@@ -3,9 +3,11 @@ using System.IO;
 using System.Timers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.SignalR;
 
 public class FileWatcherService
 {
+  private readonly IHubContext<MyHub> _hubContext;
   private string _filePath;
   private string _lastLineFilePath;
   private List<string> _filters;
@@ -15,8 +17,9 @@ public class FileWatcherService
   private string _lastWrittenLine = null;
   private bool _debug = false; // Add a debug flag
 
-  public FileWatcherService(string filePath, string lastLineFilePath, bool debug = false)
+  public FileWatcherService(IHubContext<MyHub> hubContext, string filePath, string lastLineFilePath, bool debug = false)
   {
+    _hubContext = hubContext;
     _filePath = filePath;
     _lastLineFilePath = lastLineFilePath;
     _debug = debug;
@@ -51,9 +54,9 @@ public class FileWatcherService
         var fileStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         reader = new StreamReader(fileStream);
       }
-      catch (IOException)
+      catch (IOException ex)
       {
-        LogDebug("File is being used by another process. Retrying...");
+        LogDebug("File is being used by another process. Retrying..." + ex.Message);
         await Task.Delay(1000); // Wait and retry
       }
     }
@@ -77,6 +80,7 @@ public class FileWatcherService
         if (_previousLine != _lastWrittenLine)
         {
           await File.WriteAllTextAsync(_lastLineFilePath, _previousLine);
+          await _hubContext.Clients.All.SendAsync("ReceiveUpdate", _previousLine);
           LogDebug($"Last line output: {_previousLine}");
           _lastWrittenLine = _previousLine;
         }

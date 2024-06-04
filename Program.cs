@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 builder.Services.AddSingleton<FileWatcherService>(provider =>
 {
   var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -17,7 +19,8 @@ builder.Services.AddSingleton<FileWatcherService>(provider =>
   var logFileLocationPath = Path.Combine(userProfilePath, "logfile_location.txt");
   var filePath = File.Exists(logFileLocationPath) ? File.ReadAllText(logFileLocationPath) : defaultFilePath;
   var lastLineFilePath = Path.Combine(Path.GetTempPath(), "lastline.txt");
-  return new FileWatcherService(filePath, lastLineFilePath, true);
+  var hubContext = provider.GetRequiredService<IHubContext<MyHub>>();
+  return new FileWatcherService(hubContext, filePath, lastLineFilePath, true);
 });
 
 var fileProvider = new ManifestEmbeddedFileProvider(Assembly.GetAssembly(type: typeof(Program))!, "wwwroot");
@@ -39,6 +42,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapRazorPages();
+app.MapHub<MyHub>("/hub");
 
 app.MapGet("/lastline", async context =>
 {
@@ -58,7 +62,7 @@ app.MapGet("/lastline", async context =>
 var fileWatcherService = app.Services.GetRequiredService<FileWatcherService>();
 
 Console.WriteLine("------------------------------------------------------------------");
-Console.WriteLine("Welcome to fearlessfrog's AtcLogWatcher!");
+Console.WriteLine("Welcome to fearlessfrog's AtcLogWatcher! v0.3.0");
 Console.WriteLine("Listening on: http://localhost:41716");
 Console.WriteLine("See filters.txt for the list of filters to exclude.");
 Console.WriteLine("Press Ctrl+C to exit.");
